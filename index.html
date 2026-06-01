@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelVault | Retro & Modern Game Store</title>
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/index_catalog.css" />
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand-logo" id="nav-logo">PixelVault</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#" id="link-home" class="active">Home</a></li>
+                    <li><a href="#" id="link-retro">Contact/Support</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="cart.html">
+                    <button class="cart-btn" id="cart-trigger" data-testid="navbar-cart">
+                        Cart (<span id="cart-count">0</span>)
+                    </button>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Showcase Section -->
+    <section class="hero-banner" id="featured-hero">
+        <div class="hero-content">
+            <span class="badge">Featured Release</span>
+            <h1>Yoshi and the Mysterious Book</h1>
+            <p>Embark on a beautifully animated, narrative-driven adventure. Pre-orders are now live for the upcoming
+                launch!</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" id="hero-preorder" data-testid="hero-cta-button">Pre-Order Now</button>
+                <button class="btn-secondary" id="hero-trailer">Watch Trailer</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Toggle Filter UI Bar -->
+    <section class="catalog-filter-bar">
+        <div class="filter-toggle-container">
+            <button class="filter-toggle-btn active" data-filter="all">All Games</button>
+            <button class="filter-toggle-btn" data-filter="modern">Modern Releases</button>
+            <button class="filter-toggle-btn" data-filter="retro">Retro Vault</button>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="store-container">
+
+        <!-- Filter/Search Sidebar (Great for Testing Interactivity) -->
+        <aside class="sidebar" id="store-sidebar">
+            <h3>Filters</h3>
+            <div class="filter-group">
+                <label for="search-input">Search Games</label>
+                <input type="text" id="search-input" placeholder="Type to search..." data-testid="search-bar">
+            </div>
+            <div class="filter-group">
+                <label for="platform-select">Platform</label>
+                <select id="platform-select" data-testid="platform-dropdown">
+                    <option value="all">All Platforms</option>
+                    <option value="switch2">Next-Gen Switch</option>
+                    <option value="ps5">PlayStation 5</option>
+                    <option value="retro">Retro (PS3/Wii U/3DS)</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <section class="products-grid" id="catalog-grid">
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 PixelVault Media. All mock-up rights reserved.</p>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/index_catalog.js" type="module" defer></script>
+</body>
+
+</html>
