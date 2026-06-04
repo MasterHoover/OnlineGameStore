@@ -114,19 +114,24 @@
 }
 
 /* Make the 'Remove' link button blend in quietly */
-.btn-remove-cart-item {
+.cart-item-remove-btn {
     background: transparent;
-    color: var(--text-muted);
-    /* Soft gray text */
     border: none;
-    cursor: pointer;
+    padding: 0;
+    color: var(--text-muted);
     font-size: 0.85rem;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    margin-top: 0.25rem;
+    font-weight: normal;
 }
 
-.btn-remove-cart-item:hover {
+.cart-item-remove-btn:hover {
     color: var(--primary-color);
-    /* Turns your signature red on hover! */
-    text-decoration: underline;
+    /* Changes to bright red on hover to signal an alert action */
+    opacity: 1;
+    /* Overrides global button hover opacity rules */
 }
 
 /* Stacks the details column elements vertically */
@@ -157,4 +162,10 @@
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+.btn-qty-decrement:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    filter: grayscale(1);
 }

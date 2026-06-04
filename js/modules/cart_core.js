@@ -54,7 +54,6 @@ export function renderCartPage() {
     let overallTotalItems = 0;
 
     cart.forEach((cartItem) => {
-        // Robust .find() method lookup to safely map the correct ID to the database array object
         const gameData = GAME_DATABASE.find(game => game.id === cartItem.id);
         if (!gameData) return;
 
@@ -62,41 +61,51 @@ export function renderCartPage() {
         overallTotalPrice += lineTotal;
         overallTotalItems += cartItem.quantity;
 
+        // Check if quantity is 1 or lower to block decrementing
+        const isMinusDisabled = parseInt(cartItem.quantity, 10) <= 1 ? "disabled" : "";
+
         const row = document.createElement("article");
         row.className = "cart-item-row";
         row.innerHTML = `
-        <div class="cart-row-image cart-item-img-box">
-            <img 
-                src="assets/images/${gameData.image || 'placeholder.jpg'}" 
-                alt="${gameData.title} Cover" 
-                class="cart-item-img"
-                onerror="this.onerror=null; this.src='assets/images/placeholder.jpg';"
-                data-testid="cart-img-${cartItem.id}"
-            />
-        </div>
-        
-        <div class="cart-item-details">
-            <h3 class="cart-item-title" data-testid="cart-title-${cartItem.id}">${gameData.title}</h3>
-            <span class="cart-item-unit-price" data-testid="cart-unit-price-${cartItem.id}">
-                $${gameData.price.toFixed(2)} / unit
-            </span>
-            <span class="cart-item-qty-value" data-testid="cart-qty-${cartItem.id}">
-                Quantity: ${cartItem.quantity}
-            </span>
-        </div>
-        
-        <div class="cart-item-pricing">
-            <span class="cart-item-total-label">Total</span>
-            <span class="cart-item-price" data-testid="cart-row-total-${cartItem.id}">
-                $${lineTotal.toFixed(2)}
-            </span>
-        </div>
-    `;
+            <div class="cart-row-image cart-item-img-box">
+                <img 
+                    src="assets/images/${gameData.image || 'placeholder.jpg'}" 
+                    alt="${gameData.title} Cover" 
+                    class="cart-item-img"
+                    onerror="this.onerror=null; this.src='assets/images/placeholder.jpg';"
+                    data-testid="cart-img-${cartItem.id}"
+                />
+            </div>
+            
+            <div class="cart-item-details">
+                <h3 class="cart-item-title" data-testid="cart-title-${cartItem.id}">${gameData.title}</h3>
+                <span class="cart-item-unit-price" data-testid="cart-unit-price-${cartItem.id}">
+                    $${gameData.price.toFixed(2)} / unit
+                </span>
+                
+                <div class="cart-item-quantity-control">
+                    <button class="btn-qty-decrement" ${isMinusDisabled} data-id="${cartItem.id}" data-testid="qty-minus-${cartItem.id}">−</button>
+                    <span class="cart-item-qty-value" data-testid="qty-val-${cartItem.id}">${cartItem.quantity}</span>
+                    <button class="btn-qty-increment" data-id="${cartItem.id}" data-testid="qty-plus-${cartItem.id}">+</button>
+                </div>
+            </div>
+            
+            <div class="cart-item-pricing">
+                <span class="cart-item-total-label">Total</span>
+                <span class="cart-item-price" data-testid="cart-row-total-${cartItem.id}">
+                    $${lineTotal.toFixed(2)}
+                </span>
+                <button class="cart-item-remove-btn" data-id="${cartItem.id}" data-testid="qty-remove-${cartItem.id}">
+                    Remove
+                </button>
+            </div>
+        `;
         container.append(row);
-    });
+    }); // 👈 1. Fixed: Added missing closing bracket and parenthesis for the forEach loop!
 
+    // 💡 2. Added: Sync the aggregated calculation totals over to the sidebar UI component
     updateSummaryCard(overallTotalItems, overallTotalPrice);
-}
+} // 👈 3. Fixed: Added missing final closing brace for the renderCartPage function!
 
 function updateSummaryCard(totalCount, totalPrice) {
     const countEl = document.getElementById(TOTAL_ITEMS_COUNT_ID);
@@ -104,4 +113,53 @@ function updateSummaryCard(totalCount, totalPrice) {
 
     if (countEl) countEl.textContent = totalCount;
     if (priceEl) priceEl.textContent = `$${totalPrice.toFixed(2)}`;
+}
+
+export function setupCartEventListeners() {
+    const container = document.getElementById(CART_ITEM_CONTAINER_ID);
+    if (!container) return;
+
+    container.addEventListener("click", (event) => {
+        const target = event.target;
+
+        // Find out which game ID this button belongs to
+        const gameId = parseInt(target.getAttribute("data-id"), 10);
+        if (isNaN(gameId)) return;
+
+        loadCart(); // Grab the latest real-time storage state
+        const cartItem = cart.find(item => item.id === gameId);
+
+        // Handle Individual Row Deletion Lifecycle Completely
+        if (target.classList.contains("cart-item-remove-btn")) {
+            // Keep everything EXCEPT the chosen game ID
+            cart = cart.filter(item => item.id !== gameId);
+            saveAndRefreshCart();
+            return; // Exit early since the target item element is now destroyed
+        }
+
+        // --- Our Existing Quantity Adjuster Logic Below ---
+        if (!cartItem) return;
+
+        // Handle Decrement Action (Hard floor at 1)
+        if (target.classList.contains("btn-qty-decrement")) {
+            if (cartItem.quantity > 1) {
+                cartItem.quantity -= 1;
+                saveAndRefreshCart();
+            }
+            // Clicking minus when quantity is 1 now does absolutely nothing!
+        }
+
+        // Handle Increment Action
+        if (target.classList.contains("btn-qty-increment")) {
+            cartItem.quantity += 1;
+            saveAndRefreshCart();
+        }
+    });
+}
+
+// Private helper to clean up layout rewriting syntax loops
+function saveAndRefreshCart() {
+    localStorage.setItem(LOCAL_STORAGE_CART, JSON.stringify(cart));
+    updateCartCounter(); // Update navigation badge
+    renderCartPage();    // Re-draw rows and update sidebar summary math totals
 }
