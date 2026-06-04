@@ -1,0 +1,11 @@
+# IDE and System Files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Dependencies (if you use npm server tools later)
+node_modules/
+npm-debug.log*
+
+# Local configuration or log files
+*.log

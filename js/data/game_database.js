@@ -1,4 +1,4 @@
-import { GameRecord } from "./GameRecord.js";
+import { GameRecord } from "../models/GameRecord.js";
 
 const Categories = Object.freeze({
     MODERN: "modern",
@@ -73,7 +73,7 @@ export const GAME_DATABASE = [
         "other",
         Categories.MODERN,
         Platforms.N64,
-        1,
+        1.99,
         90,
         ""
     )
