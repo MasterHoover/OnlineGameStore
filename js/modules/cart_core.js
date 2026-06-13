@@ -1,6 +1,10 @@
 import { GAME_DATABASE } from "../data/game_database.js";
 import { CartItem } from "../models/CartItem.js";
 
+import { ERA_PLATFORM_MAP } from "./platform_mapping.js";
+import { getGameEra } from "./platform_mapping.js";
+import { getPlatformLabel } from "./platform_mapping.js";
+
 const LOCAL_STORAGE_CART = "store-cart";
 const CART_COUNT_ID = "cart-count";
 const TOTAL_ITEMS_COUNT_ID = "cart-total-count";
@@ -64,42 +68,43 @@ export function renderCartPage() {
         // Check if quantity is 1 or lower to block decrementing
         const isMinusDisabled = parseInt(cartItem.quantity, 10) <= 1 ? "disabled" : "";
 
+        const cleanPlatformLabel = getPlatformLabel(gameData.platform);
+
         const row = document.createElement("article");
         row.className = "cart-item-row";
         row.innerHTML = `
-            <div class="cart-row-image cart-item-img-box">
-                <img 
-                    src="assets/images/${gameData.image || 'placeholder.jpg'}" 
-                    alt="${gameData.title} Cover" 
-                    class="cart-item-img"
-                    onerror="this.onerror=null; this.src='assets/images/placeholder.jpg';"
-                    data-testid="cart-img-${cartItem.id}"
-                />
-            </div>
+        <div class="cart-row-image cart-item-img-box">
+            <img 
+                src="assets/images/${gameData.image || 'placeholder.jpg'}" 
+                alt="${gameData.title} Cover" 
+                class="cart-item-img"
+                onerror="this.onerror=null; this.src='assets/images/placeholder.jpg';"
+                data-testid="cart-img-${cartItem.id}"
+            />
+        </div>
+        
+        <div class="cart-item-details">
+            <h3 class="cart-item-title" data-testid="cart-title-${cartItem.id}">${gameData.title}</h3>
             
-            <div class="cart-item-details">
-                <h3 class="cart-item-title" data-testid="cart-title-${cartItem.id}">${gameData.title}</h3>
-                <span class="cart-item-unit-price" data-testid="cart-unit-price-${cartItem.id}">
-                    $${gameData.price.toFixed(2)} / unit
-                </span>
-                
-                <div class="cart-item-quantity-control">
-                    <button class="btn-qty-decrement" ${isMinusDisabled} data-id="${cartItem.id}" data-testid="qty-minus-${cartItem.id}">−</button>
-                    <span class="cart-item-qty-value" data-testid="qty-val-${cartItem.id}">${cartItem.quantity}</span>
-                    <button class="btn-qty-increment" data-id="${cartItem.id}" data-testid="qty-plus-${cartItem.id}">+</button>
-                </div>
-            </div>
+            <span class="cart-item-platform-tag" data-testid="cart-platform-${cartItem.id}">${cleanPlatformLabel}</span>
             
-            <div class="cart-item-pricing">
-                <span class="cart-item-total-label">Total</span>
-                <span class="cart-item-price" data-testid="cart-row-total-${cartItem.id}">
-                    $${lineTotal.toFixed(2)}
-                </span>
-                <button class="cart-item-remove-btn" data-id="${cartItem.id}" data-testid="qty-remove-${cartItem.id}">
-                    Remove
-                </button>
+            <span class="cart-item-unit-price" data-testid="cart-unit-price-${cartItem.id}">
+                $${gameData.price.toFixed(2)} / unit
+            </span>
+            
+            <div class="cart-item-quantity-control">
+                <button class="btn-qty-decrement" data-id="${cartItem.id}" data-testid="qty-minus-${cartItem.id}">−</button>
+                <span class="cart-item-qty-value" data-testid="qty-val-${cartItem.id}">${cartItem.quantity}</span>
+                <button class="btn-qty-increment" data-id="${cartItem.id}" data-testid="qty-plus-${cartItem.id}">+</button>
             </div>
-        `;
+        </div>
+        
+        <div class="cart-item-pricing">
+            <span class="cart-item-total-label">Total</span>
+            <span class="cart-item-price" data-testid="cart-row-total-${cartItem.id}">$${lineTotal.toFixed(2)}</span>
+            <button class="cart-item-remove-btn" data-id="${cartItem.id}" data-testid="qty-remove-${cartItem.id}">Remove</button>
+        </div>
+    `;
         container.append(row);
     }); // 👈 1. Fixed: Added missing closing bracket and parenthesis for the forEach loop!
 

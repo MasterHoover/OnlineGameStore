@@ -1,33 +1,76 @@
 /* ==========================================================================
    Hero Banner Area
    ========================================================================== */
+/* Styling for the interactive hero banner element */
 .hero-banner {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), var(--bg-dark)), linear-gradient(45deg, #1e1e24, #2d3436);
-    padding: 6rem 2rem 2rem 2rem;
+    position: relative;
     display: flex;
-    justify-content: center;
-    text-align: center;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 450px;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.5s ease-in-out;
+    /* Smooth fade transistion between slides */
+    padding: 2rem 4rem;
 }
 
-.hero-content {
-    max-width: 700px;
+.hero-banner.hidden {
+    display: none !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-.hero-content h1 {
-    font-size: 3rem;
-    margin: 1rem 0;
+.hero-content-wrapper {
+    flex-grow: 1;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Slick transparent navigation arrow mechanics */
+.carousel-arrow {
+    background: rgba(0, 0, 0, 0.4);
     color: var(--text-main);
+    border: 1px solid var(--border-color);
+    font-size: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
 }
 
-.hero-content p {
-    color: var(--text-muted);
-    margin-bottom: 2rem;
+.carousel-arrow:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
-.hero-buttons {
+/* Dots track position indicators layout */
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    gap: 1rem;
-    justify-content: center;
+    gap: 10px;
+    z-index: 10;
+}
+
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.carousel-dot.active {
+    background: var(--primary-color);
+    transform: scale(1.2);
 }
 
 /* ==========================================================================

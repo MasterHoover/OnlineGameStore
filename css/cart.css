@@ -169,3 +169,15 @@
     cursor: not-allowed;
     filter: grayscale(1);
 }
+
+.cart-item-platform-tag {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-blue);
+    /* 💡 Reuses your global core blueprint color */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: -2px;
+    /* Shifts tag closer to the header title text nicely */
+    margin-bottom: 4px;
+}
