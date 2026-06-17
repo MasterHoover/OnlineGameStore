@@ -181,3 +181,160 @@
     /* Shifts tag closer to the header title text nicely */
     margin-bottom: 4px;
 }
+
+/* ==========================================================================
+   Mock Checkout Modal & Layout Scaffolding
+   ========================================================================== */
+.checkout-modal-overlay {
+    position: fixed;
+    /* Fixes it relative to the browser viewport window */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    /* Deep dark overlay shroud */
+    backdrop-filter: blur(8px);
+    /* Smooth background frosting effect */
+
+    /* 🎯 The Magic Centering Loop */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 200;
+    /* Explicitly floats above your navbar's z-index of 100! */
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Ensure the hidden utility works flawlessly */
+.checkout-modal-overlay.hidden {
+    display: none !important;
+}
+
+.checkout-card-box {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 550px;
+    /* Prevents input stretching on large screens */
+    padding: 2.5rem;
+    position: relative;
+    /* Allows the close 'X' button to anchor to the top right */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Close Window 'X' Button Anchor position */
+.modal-close-x {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close-x:hover {
+    color: var(--primary-color);
+}
+
+.checkout-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Form Input Configurations */
+.form-field-group {
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field-group label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.form-field-group input {
+    padding: 0.75rem;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    color: white;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-field-group input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.form-row-split {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.form-row-split .form-field-group {
+    flex: 1;
+}
+
+.btn-submit-order {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+/* Defensive Error State Layout System */
+.field-error-msg {
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    margin-top: 0.35rem;
+    display: none;
+    /* Invisible until validated invalid */
+}
+
+input.invalid-field {
+    border-color: var(--primary-color) !important;
+    background-color: rgba(255, 71, 87, 0.05);
+}
+
+.sidebar-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+
+.summary-divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 1rem 0;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    color: var(--text-muted);
+}
+
+.total-highlight {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-main);
+    margin-top: 1rem;
+}
+
+.btn-checkout-action {
+    width: 100%;
+    margin-top: 1.5rem;
+}

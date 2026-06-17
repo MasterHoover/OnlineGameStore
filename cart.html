@@ -35,24 +35,81 @@
             </section>
 
             <aside class="order-summary-sidebar">
-                <div class="summary-card">
-                    <h3>Order Summary</h3>
-                    <hr>
-                    <div class="summary-row">
-                        <span>Total Items:</span>
-                        <span id="cart-total-count">0</span>
+                <aside class="order-summary-sidebar">
+                    <div class="sidebar-card">
+                        <h3>Order Summary</h3>
+                        <hr class="summary-divider" />
+
+                        <div class="summary-row">
+                            <span>Total Items:</span>
+                            <span id="cart-total-count" data-testid="summary-item-count">0</span>
+                        </div>
+
+                        <div class="summary-row total-highlight">
+                            <span>Estimated Total:</span>
+                            <span id="cart-total-price" data-testid="summary-total-val">$0.00</span>
+                        </div>
+
+                        <button id="btn-open-checkout" class="btn-primary btn-checkout-action" disabled
+                            data-testid="trigger-checkout">
+                            Proceed to Checkout
+                        </button>
                     </div>
-                    <div class="summary-row total-price-row">
-                        <span>Estimated Total:</span>
-                        <span id="cart-total-price">$0.00</span>
-                    </div>
-                    <button id="btn-checkout" class="btn-checkout-primary" disabled>Proceed to Checkout</button>
-                </div>
+                </aside>
             </aside>
 
         </div>
-    </main>
+        <div class="checkout-modal-overlay hidden" id="checkout-modal" data-testid="checkout-overlay">
+            <div class="checkout-card-box">
+                <button class="modal-close-x" id="btn-close-checkout" aria-label="Close Checkout">×</button>
 
+                <h2>Secure Mock Checkout</h2>
+                <p class="checkout-subtitle">Complete your transaction sandbox validation layout loop.</p>
+
+                <form id="mock-checkout-form" novalidate>
+                    <div class="form-field-group">
+                        <label for="checkout-email">Email Address</label>
+                        <input type="email" id="checkout-email" required placeholder="name@domain.com"
+                            data-testid="input-email" />
+                        <span class="field-error-msg" id="err-email">Valid email structure required.</span>
+                    </div>
+
+                    <div class="form-field-group">
+                        <label for="checkout-name">Full Name on Card</label>
+                        <input type="text" id="checkout-name" required placeholder="John Doe"
+                            data-testid="input-name" />
+                        <span class="field-error-msg" id="err-name">Name verification matching is mandatory.</span>
+                    </div>
+
+                    <div class="form-field-group">
+                        <label for="checkout-card">Mock Card Number</label>
+                        <input type="text" id="checkout-card" required maxlength="14" placeholder="1111 2222 3333"
+                            data-testid="input-card" />
+                        <span class="field-error-msg" id="err-card">Must contain exactly 12 numeric digits.</span>
+                    </div>
+
+                    <div class="form-row-split">
+                        <div class="form-field-group">
+                            <label for="checkout-expiry">Expiry (MM/YY)</label>
+                            <input type="text" id="checkout-expiry" required maxlength="5" placeholder="12/28"
+                                data-testid="input-expiry" />
+                            <span class="field-error-msg" id="err-expiry">Format: MM/YY</span>
+                        </div>
+                        <div class="form-field-group">
+                            <label for="checkout-cvv">CVV</label>
+                            <input type="text" id="checkout-cvv" required maxlength="3" placeholder="123"
+                                data-testid="input-cvv" />
+                            <span class="field-error-msg" id="err-cvv">3 digits</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-submit-order" data-testid="submit-order-btn">
+                        Authorize Payment Sandbox
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
     <footer class="main-footer">
         <p>&copy; 2026 Retro Game Vault. Built for Portfolio Automation Practice.</p>
     </footer>

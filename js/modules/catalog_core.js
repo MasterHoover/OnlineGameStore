@@ -146,16 +146,18 @@ export function updatePlatformDropdownOptions() {
     const selectedEra = eraSelect.value;
 
     // Always start with a fresh "All Platforms" option
-    platformSelect.innerHTML = `<option value="all">All Platforms</option>`;
+    //platformSelect.innerHTML = `<option value="all">All Platforms</option>`;
 
     if (selectedEra === "all") {
         // Combine all platforms from both eras into the list
+        platformSelect.innerHTML = `<option value="all">All Platforms</option>`;
         const allPlatforms = [...ERA_PLATFORM_MAP.modern, ...ERA_PLATFORM_MAP.retro];
         allPlatforms.forEach(p => {
             platformSelect.innerHTML += `<option value="${p.value}">${p.label}</option>`;
         });
     } else if (ERA_PLATFORM_MAP[selectedEra]) {
         // Inject only the platforms linked specifically to this chosen era
+        platformSelect.innerHTML = `<option value="all">All ${selectedEra[0].toUpperCase()}${selectedEra.slice(1)} Platforms</option>`
         ERA_PLATFORM_MAP[selectedEra].forEach(p => {
             platformSelect.innerHTML += `<option value="${p.value}">${p.label}</option>`;
         });
